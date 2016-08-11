@@ -2,7 +2,9 @@
 <img src="http://www.hypergrid.com/wp-content/themes/hypergrid/img/logo.png" alt="" />
 </figure>
 
-To run & manage this simple Docker ASP.NET "Hello Web" application on 18 different clouds and virtualization platforms (including vSphere, OpenStack, AWS, Rackspace, Microsoft Azure, Google Compute Engine, DigitalOcean, IBM SoftLayer, etc.), make sure that you either:
+This project was cloned from the official Microsoft repository: **<https://github.com/aspnet/Home/tree/dev/samples/1.0.0-rc1-final/HelloMvc>**
+
+To run & manage this simple Docker ASP.NET "Hello MVC" application on 18 different clouds and virtualization platforms (including vSphere, OpenStack, AWS, Rackspace, Microsoft Azure, Google Compute Engine, DigitalOcean, IBM SoftLayer, etc.), make sure that you either:
 -   **Sign Up for HyperForm SaaS** -- <http://dchq.io>, or
 -   **Download HyperForm On-Premise Standard Edition for free** -- <http://dchq.co/hyperform-on-premise.html>
 
@@ -11,13 +13,13 @@ To run & manage this simple Docker ASP.NET "Hello Web" application on 18 differe
 
 Customize & Run all the published Docker ASP.NET application templates and many other templates (including multi-tier Java application stacks, Python, Ruby, PHP, Mongo Replica Set Cluster, Drupal, Wordpress, MEAN.JS, etc.)
 
-### ASP.NET Hello Web
+### ASP.NET Hello MVC
 
 [![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ&bl=2c9180875663d1ca015676b65c8655fd)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-aspnet:
-  image: dchq/aspnet-helloweb:latest
+aspnet-mvc:
+  image: dchq/aspnet-hellomvc:latest
   mem_min: 50m
   host: host1
   publish_all: true
@@ -25,7 +27,7 @@ aspnet:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-### Nginx and ASP.NET
+### Nginx and ASP.NET MVC
 
 [![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ&bl=2c9180865663cf27015676b7c3836226)
 
@@ -39,21 +41,21 @@ nginx:
     - !plugin
       id: 0H1Nk
       restart: true
-      lifecycle: on_create, post_scale_out:aspnet, post_scale_in:aspnet
+      lifecycle: on_create, post_scale_out:aspnet-mvc, post_scale_in:aspnet-mvc
       arguments:
         # Use container_private_ip if you're using Docker networking
-        - servers=server {{aspnet | container_private_ip}}:5004;
+        - servers=server {{aspnet-mvc | container_private_ip}}:5004;
         # Use container_hostname if you're using Weave networking
-        #- servers=server {{aspnet | container_hostname}}:5004;
-aspnet:
-  image: dchq/aspnet-helloweb:latest
+        #- servers=server {{aspnet-mvc | container_hostname}}:5004;
+aspnet-mvc:
+  image: dchq/aspnet-hellomvc:latest
   mem_min: 100m
   host: host1
   publish_all: false
   cluster_size: 1
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-### Apache HTTP Server and Node.js
+### Apache HTTP Server and ASP.NET MVC
 
 [![Customize and Run](https://dl.dropboxusercontent.com/u/4090128/dchq-customize-and-run.png)](https://www.dchq.io/landing/products.html#/library?org=DCHQ&bl=2c9180875663d1ca015676b8c03e5612)
 
@@ -67,14 +69,14 @@ http-lb:
     - !plugin
       id: uazUi
       restart: true
-      lifecycle: on_create, post_scale_out:aspnet, post_scale_in:aspnet
+      lifecycle: on_create, post_scale_out:aspnet-mvc, post_scale_in:aspnet-mvc
       arguments:
         # Use container_private_ip if you're using Docker networking
-        - BalancerMembers=BalancerMember http://{{aspnet | container_private_ip}}:5004
+        - BalancerMembers=BalancerMember http://{{aspnet-mvc | container_private_ip}}:5004
         # Use container_hostname if you're using Weave networking
-        #- BalancerMembers=BalancerMember http://{{aspnet | container_hostname}}:5004
-aspnet:
-  image: dchq/aspnet-helloweb:latest
+        #- BalancerMembers=BalancerMember http://{{aspnet-mvc | container_hostname}}:5004
+aspnet-mvc:
+  image: dchq/aspnet-hellomvc:latest
   mem_min: 100m
   host: host1
   publish_all: false
